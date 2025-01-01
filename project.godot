@@ -27,3 +27,7 @@ window/stretch/aspect="keep_height"
 [dotnet]
 
 project/assembly_name="drekiGodot2"
+
+[gui]
+
+theme/custom="res://dat/theme/base.tres"

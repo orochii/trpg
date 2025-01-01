@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="DataUnit" load_steps=3 format=3 uid="uid://coymjmwisbdwf"]
+
+[ext_resource type="Script" path="res://src/data/DataUnit.cs" id="1_deykq"]
+[ext_resource type="Texture2D" uid="uid://dtjbmx3bdwjau" path="res://gfx/character/hikari_char.png" id="1_nmip1"]
+
+[resource]
+script = ExtResource("1_deykq")
+DisplayName = "Hikari"
+Graphic = ExtResource("1_nmip1")
+HP = 10
+LP = 4
+Offense = 4
+Dexterity = 8
+Move = 4
+Element = 2
+CollisionLayers = 1

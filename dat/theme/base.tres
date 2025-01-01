@@ -1,0 +1,28 @@
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://d2dob1k3tidcn"]
+
+[ext_resource type="FontFile" uid="uid://5as8ma03r5w8" path="res://fnt/m3x6oz.ttf" id="1_3polf"]
+[ext_resource type="FontFile" uid="uid://cqhjeonssiqx1" path="res://fnt/m3x6-italic.ttf" id="2_y0hpx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wrp4l"]
+bg_color = Color(0.130772, 0.130772, 0.130772, 1)
+border_width_top = 2
+border_width_bottom = 2
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[resource]
+Button/font_sizes/font_size = 10
+Button/fonts/font = ExtResource("1_3polf")
+Button/styles/focus = SubResource("StyleBoxFlat_wrp4l")
+Label/font_sizes/font_size = 10
+Label/fonts/font = ExtResource("1_3polf")
+MarginContainer/constants/margin_bottom = 4
+MarginContainer/constants/margin_left = 4
+MarginContainer/constants/margin_right = 4
+MarginContainer/constants/margin_top = 4
+RichTextLabel/font_sizes/italics_font_size = 10
+RichTextLabel/font_sizes/normal_font_size = 10
+RichTextLabel/fonts/italics_font = ExtResource("2_y0hpx")
+RichTextLabel/fonts/normal_font = ExtResource("1_3polf")

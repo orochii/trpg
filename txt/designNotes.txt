@@ -1,0 +1,35 @@
+unit
+    hp
+        can't act when at 0
+    lp
+        rs style, when 0, permadeath
+        ally can revive at cost of 1LP
+    offense
+        damage      dmg = offense * 1
+    dexterity
+        accuracy%:  acc% = wpnBase + dex * 2
+        doubles:    repeats = agiDiff / N (N=20 for now)
+        crit%:      crit = wpnBase + dex / 2
+    move
+        number of tiles units move in a turn
+
+skills
+    Shouten Cut     - R:1 high crit, t+DexDown
+    Winter Breeze   - R:3 
+ultimate
+    Absolute Zero   - R:1 24 hits?
+
+player phase
+    move freely between all tiles in range
+    press A to open action menu
+        -act (skill,ult)
+            selection window
+                skill1,skill2,ultimate
+            status window
+                name,hp,lp,(offense,dex,)move
+        -raise
+        -wait
+    upon selection, any action needing it will show the target select
+        effect result window
+            dmg,acc%(doubles,etc),crit%
+enemy phase
