@@ -9,10 +9,13 @@ public partial class Main : Node
 	[Export] private Node2D Map;
 	[ExportCategory("Templates")]
 	[Export] public PackedScene UnitTemplate;
+	public Main() {
+		Instance = this;
+		if (State==null) State = new GameState();
+	}
 	public override void _Ready()
 	{
-		Instance = this;
-		State = new GameState();
+		//
 	}
 	public override void _Process(double delta)
 	{

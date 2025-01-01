@@ -31,6 +31,7 @@ texture_filter = 1
 script = ExtResource("1_nmmc8")
 MapParent = NodePath("Map")
 Map = NodePath("Map/TestMap")
+UnitTemplate = ExtResource("4_22hnt")
 
 [node name="Map" type="Node2D" parent="."]
 
