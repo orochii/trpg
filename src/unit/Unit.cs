@@ -12,11 +12,14 @@ public partial class Unit : Node2D
 	public const float MOVE_SPEED = 1;
 	[Export] private DataUnit Data;
 	[Export] private EFaction Faction;
+	private CharGraphic Graphic;
 	public GameUnit State;
 	public Vector2I CurrentPosition;
 	public override void _Ready()
 	{
-		//
+		foreach(var c in GetChildren()) {
+			if (c is CharGraphic) Graphic = c as CharGraphic;
+		}
 	}
 	public override void _Process(double delta)
 	{
@@ -25,6 +28,8 @@ public partial class Unit : Node2D
 			GlobalPosition = GlobalPosition.MoveToward(t, MOVE_SPEED);
 			return;
 		}
+		/* 	// Might repurpose this for uh non-battle maps
+			// Idea is like Another Bible's towns.
 		var horz = (int)Math.Round(Input.GetAxis("ui_left", "ui_right"));
 		var vert = (int)Math.Round(Input.GetAxis("ui_up", "ui_down"));
 		if (horz != 0 || vert != 0) {
@@ -33,6 +38,7 @@ public partial class Unit : Node2D
 				CurrentPosition = newpos;
 			}
 		}
+		*/
 	}
 	public void Setup() {
 		State = new GameUnit(Data.Id, Faction);
@@ -40,6 +46,7 @@ public partial class Unit : Node2D
 		GlobalPosition = TileToGlobalPos(CurrentPosition);
 		State.PosX = CurrentPosition.X;
 		State.PosY = CurrentPosition.Y;
+		Refresh();
 	}
 	public void Setup(GameUnit unit)
     {
@@ -48,7 +55,15 @@ public partial class Unit : Node2D
 		Faction = unit.Faction;
 		CurrentPosition = new Vector2I(unit.PosX, unit.PosY);
 		GlobalPosition = TileToGlobalPos(CurrentPosition);
+		Refresh();
     }
+	public void Refresh() {
+		if (Data == null) {
+			Graphic.Texture = null;
+			return;
+		}
+		Graphic.Texture = Data.Graphic;
+	}
 	public bool IsMoving() {
 		var t = TileToGlobalPos(CurrentPosition);
 		return GlobalPosition != t;

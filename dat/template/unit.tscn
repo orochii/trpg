@@ -1,14 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://dqqbrtcyvc38f"]
+[gd_scene load_steps=5 format=3 uid="uid://dqqbrtcyvc38f"]
 
 [ext_resource type="Script" path="res://src/unit/Unit.cs" id="1_8vx6y"]
-[ext_resource type="Resource" uid="uid://coymjmwisbdwf" path="res://dat/unit/hikari.tres" id="2_ng61p"]
-[ext_resource type="Texture2D" uid="uid://dtjbmx3bdwjau" path="res://gfx/character/hikari_char.png" id="3_64vq6"]
+[ext_resource type="Resource" uid="uid://dqamsyqdovqym" path="res://dat/unit/mole.tres" id="2_8b43f"]
+[ext_resource type="Texture2D" uid="uid://dr2frbiadim6r" path="res://gfx/character/mole_char.png" id="3_b5ija"]
+[ext_resource type="Script" path="res://src/unit/CharGraphic.cs" id="4_voff7"]
 
 [node name="Unit" type="Node2D"]
-position = Vector2(168, 136)
 script = ExtResource("1_8vx6y")
-Data = ExtResource("2_ng61p")
+Data = ExtResource("2_8b43f")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("3_64vq6")
+texture = ExtResource("3_b5ija")
 offset = Vector2(0, -8)
+script = ExtResource("4_voff7")

@@ -15,11 +15,23 @@ public partial class StartPosition : Sprite2D
 	public override void _Process(double delta)
 	{
 		if (!IsVisibleInTree()) return;
-		Modulate = GetFactionColor();
+		Modulate = Colors.White;
+		SelfModulate = GetFactionColor();
+		if (Engine.IsEditorHint()) {
+			foreach (var c in GetChildren()) {
+				if (c is Label) {
+					var l = c as Label;
+					l.Text = GetFactionLabel();
+					return;
+				}
+			}
+		}
+	}
+	public void SetLabel(int val) {
 		foreach (var c in GetChildren()) {
 			if (c is Label) {
 				var l = c as Label;
-				l.Text = GetFactionLabel();
+				l.Text = val.ToString();
 				return;
 			}
 		}

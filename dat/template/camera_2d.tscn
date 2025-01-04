@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://byvsu3l4d1po5"]
+
+[ext_resource type="Script" path="res://src/utils/CameraLimit.cs" id="1_bres6"]
+[ext_resource type="Script" path="res://src/unit/Camera.cs" id="1_gqv05"]
+
+[node name="Camera2D" type="Camera2D"]
+position = Vector2(280, 184)
+limit_left = 0
+limit_top = 0
+limit_right = 416
+limit_bottom = 272
+script = ExtResource("1_gqv05")
+
+[node name="CameraLimit" type="Node2D" parent="."]
+position = Vector2(-280, -184)
+script = ExtResource("1_bres6")

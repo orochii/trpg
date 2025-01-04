@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bfrl3rvr6weap"
-path="res://.godot/imported/grasslands.png-f17c4da8b7ce4d0ed6c913fb46794e1c.ctex"
+uid="uid://mo55tmmsli4v"
+path="res://.godot/imported/civet.png-bd606d8855e431aa79c9f13c84010b44.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://grasslands.png"
-dest_files=["res://.godot/imported/grasslands.png-f17c4da8b7ce4d0ed6c913fb46794e1c.ctex"]
+source_file="res://gfx/character/civet.png"
+dest_files=["res://.godot/imported/civet.png-bd606d8855e431aa79c9f13c84010b44.ctex"]
 
 [params]
 

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="DataUnit" load_steps=3 format=3 uid="uid://dqamsyqdovqym"]
+
+[ext_resource type="Texture2D" uid="uid://dr2frbiadim6r" path="res://gfx/character/mole_char.png" id="1_rd5kt"]
+[ext_resource type="Script" path="res://src/data/DataUnit.cs" id="2_0ijhm"]
+
+[resource]
+script = ExtResource("2_0ijhm")
+DisplayName = "Mole"
+Graphic = ExtResource("1_rd5kt")
+HP = 6
+LP = 1
+Offense = 2
+Dexterity = 3
+Move = 2
+Element = 4
+CollisionLayers = 1

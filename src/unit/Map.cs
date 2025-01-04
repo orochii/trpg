@@ -10,21 +10,30 @@ public partial class Map : Node2D
 	List<StartPosition> startPositions;
 	List<Unit> allUnits;
 	int unitInitIdx = 0;
+	public Map() {
+		if (!IsMapValid()) {
+			foreach (var unit in TestMapUnits) {
+				Main.State.Party.GetOrCreate(unit);
+			}
+		}
+	}
 	public override void _Ready()
     {
+		Main.Instance.Map = this;
 		PrepareInstance();
 		PrepareMapUnits();
-		/* 
-			Will probably have to split this here, 
-			to do a "preparation phase" of sorts.
-		*/
-		PreparePartyUnits();
+		// PreparePartyUnits();
+		GoToPhase(EBattlePhase.INTRO);
     }
 	private void PrepareInstance() {
 		allUnits = new();
 		startPositions = new();
 		foreach (var c in ObjectParent.GetChildren()) {
-			if (c is StartPosition) startPositions.Add(c as StartPosition);
+			if (c is StartPosition) {
+				var sp = c as StartPosition;
+				startPositions.Add(sp);
+				sp.SetLabel(startPositions.Count);
+			}
 			else if (c is Unit) allUnits.Add(c as Unit);
 		}
 	}
@@ -39,9 +48,6 @@ public partial class Map : Node2D
 		} else {
 			// Otherwise restart fight.
             Main.State.Map = new GameMap();
-			foreach (var id in TestMapUnits) {
-				Main.State.Map.Deployed.Add(id);
-			}
         }
 		for (;unitInitIdx < allUnits.Count; unitInitIdx++) {
 			var obj = allUnits[unitInitIdx];
@@ -50,24 +56,22 @@ public partial class Map : Node2D
 		}
 	}
 	private void PreparePartyUnits() {
-		var spIdx = 0;
-		foreach (var id in Main.State.Map.Deployed) {
-			var unit = Main.State.Party.GetOrCreate(id);
+		foreach (var kvp in Main.State.Map.Deployed) {
+			if (kvp.Key < 0 || startPositions.Count <= kvp.Key) return;
+			var unit = Main.State.Party.GetOrCreate(kvp.Value);
 			if (!unit.InBattle) {
-				var sp = startPositions[spIdx];
+				var sp = startPositions[kvp.Key];
 				var tpos = sp.GetGlobalTilePos();
 				unit.PosX = tpos.X;
 				unit.PosY = tpos.Y;
 				unit.InBattle = true;
-				sp.Visible = false;
-				spIdx++;
 			}
 			var obj = GetOrCreate(unitInitIdx);
 			obj.Setup(unit);
 			unitInitIdx++;
 		}
-		for (;spIdx < startPositions.Count; spIdx++) {
-			startPositions[spIdx].Visible = false;
+		for (var idx = 0; idx < startPositions.Count; idx++) {
+			startPositions[idx].Visible = false;
 		}
 	}
 	private Unit GetOrCreate(int idx) {
@@ -82,7 +86,41 @@ public partial class Map : Node2D
     {
         return Main.State.Map != null && Main.State.Map.Name == CurrentMapName;
     }
-    public override void _Process(double delta)
+    EBattlePhase CurrentPhase;
+	public void GoToPhase(EBattlePhase phase) {
+		CurrentPhase = phase;
+		Main.Instance.GUI.Battle.Open(phase);
+	}
+	public override void _Process(double delta)
 	{
+		if (!BattleUi.Busy) {
+			var battle = Main.Instance.GUI.Battle;
+			switch (CurrentPhase) {
+				case EBattlePhase.INTRO:
+					break;
+				case EBattlePhase.UNIT_SELECT:
+					break;
+				case EBattlePhase.UNIT_PLACE:
+					break;
+				case EBattlePhase.READY:
+					break;
+				case EBattlePhase.START:
+					break;
+				case EBattlePhase.SELECT:
+					break;
+				case EBattlePhase.MOVE:
+					break;
+				case EBattlePhase.ACTION:
+					break;
+				case EBattlePhase.TARGET:
+					break;
+				case EBattlePhase.PREDICTION:
+					break;
+				case EBattlePhase.EXECUTE:
+					break;
+				case EBattlePhase.RESULT:
+					break;
+			}
+		}
 	}
 }
