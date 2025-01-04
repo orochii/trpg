@@ -4,11 +4,12 @@
 [ext_resource type="Script" path="res://src/ui/StartPosition.cs" id="2_4wxw5"]
 [ext_resource type="Script" path="res://src/unit/CharGraphic.cs" id="4_3dmyy"]
 
-[node name="StartPos" type="Sprite2D"]
+[node name="StartPos" type="Sprite2D" node_paths=PackedStringArray("Preview")]
 self_modulate = Color(0.5, 0.5, 1, 0.7)
 position = Vector2(136, 72)
 texture = ExtResource("1_actfy")
 script = ExtResource("2_4wxw5")
+Preview = NodePath("Sprite2D")
 
 [node name="Label" type="Label" parent="."]
 offset_left = -6.0

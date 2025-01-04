@@ -3,22 +3,39 @@ using System;
 
 public partial class MapCursor : Node2D
 {
+	public static MapCursor Instance {get; private set;}
 	public const float MOVE_SPEED = 2;
+	[Export] private Sprite2D Preview;
 	Vector2 CurrentPosition;
 	public override void _Ready()
 	{
+		Instance = this;
 		var cam = GetViewport().GetCamera2D() as Camera;
 		cam.Target = this;
 		CurrentPosition = GlobalPosition;
 	}
+	public void Reposition(Vector2 pos) {
+		pos = Unit.SnapPosition(pos);
+		GlobalPosition = pos;
+		CurrentPosition = pos;
+	}
 	public override void _Process(double delta)
 	{
+		RefreshPreview();
 		if (IsMoving()) {
 			GlobalPosition = GlobalPosition.MoveToward(CurrentPosition, MOVE_SPEED);
 			return;
 		}
 		if (!IsVisibleInTree()) return;
-		if (GetViewport().GuiGetFocusOwner() != null) {
+		if (GetViewport().GuiGetFocusOwner() != null || BattleUi.Busy) {
+			return;
+		}
+		if (Input.IsActionJustPressed("ui_accept")) {
+			Main.Instance.Map.OnAction();
+			return;
+		}
+		if (Input.IsActionJustPressed("ui_cancel")) {
+			Main.Instance.Map.OnCancel();
 			return;
 		}
 		var horz = (int)Math.Round(Input.GetAxis("ui_left", "ui_right"));
@@ -40,5 +57,15 @@ public partial class MapCursor : Node2D
 	}
 	public bool IsMoving() {
 		return GlobalPosition != CurrentPosition;
+	}
+	private void RefreshPreview() {
+		if (Main.Instance.Map != null && Main.Instance.Map.CurrentUnit != null) {
+			var u = Main.Instance.Map.CurrentUnit;
+			var d = DataUnit.Get(u.Id);
+			Preview.Visible = true;
+			Preview.Texture = d.Graphic;
+		} else {
+			Preview.Visible = false;
+		}
 	}
 }

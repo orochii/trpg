@@ -114,4 +114,11 @@ public partial class Unit : Node2D
 				return Vector2.Zero;
 		}
 	}
+	public static Vector2 SnapPosition(Vector2 pos) {
+		var x = (int)(pos.X / Unit.TILE_SIZE) * Unit.TILE_SIZE;
+		var y = (int)(pos.Y / Unit.TILE_SIZE) * Unit.TILE_SIZE;
+		if (pos.X < 0) x -= 1;
+		if (pos.Y < 0) y -= 1;
+		return new Vector2(x,y);
+	}
 }

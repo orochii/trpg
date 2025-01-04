@@ -13,6 +13,7 @@ public partial class UnitPlacement : MarginContainer
     }
 	public void Refresh() {
 		foreach (var e in entries) e.QueueFree();
+		entries.Clear();
 		foreach (var unit in Main.State.Party.Members) {
 			var i = UnitTemplate.Duplicate() as UnitButton;
 			i.Visible = true;
@@ -23,6 +24,13 @@ public partial class UnitPlacement : MarginContainer
 		}
 	}
 	public void Focus() {
-		entries[0].GrabFocus();
+		int idx = 0;
+		for (int i = 0; i < entries.Count; i++) {
+			if (entries[i].Enabled) {
+				idx = i;
+				break;
+			}
+		}
+		entries[idx].GrabFocus();
 	}
 }

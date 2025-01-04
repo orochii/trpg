@@ -12,6 +12,8 @@ public partial class StartPosition : Sprite2D
 	private static Color F_ENEMY = new(FULL,HALF,HALF,OPACITY);
 	//
 	[Export] public EFaction Faction = EFaction.ALLY;
+	[Export] private Sprite2D Preview;
+	private string _unitId = null;
 	public override void _Process(double delta)
 	{
 		if (!IsVisibleInTree()) return;
@@ -25,13 +27,32 @@ public partial class StartPosition : Sprite2D
 					return;
 				}
 			}
+		} else {
+			RefreshGraphic();
 		}
 	}
-	public void SetLabel(int val) {
+	private void RefreshGraphic() {
+		if (Main.State.Map.Deployed.TryGetValue(Index, out var id)) {
+			if (_unitId == id) return;
+			if (id != null) {
+				//var unit = Main.State.Party.GetOrCreate(id);
+				var data = DataUnit.Get(id);
+				Preview.Texture = data.Graphic;
+				Preview.Visible = true;
+				_unitId = id;
+				return;
+			}
+		}
+		_unitId = null;
+		Preview.Visible = false;
+	}
+	public int Index {get; private set;}
+	public void SetIndex(int val) {
 		foreach (var c in GetChildren()) {
 			if (c is Label) {
 				var l = c as Label;
 				l.Text = val.ToString();
+				Index = val;
 				return;
 			}
 		}

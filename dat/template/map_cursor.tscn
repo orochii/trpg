@@ -3,9 +3,15 @@
 [ext_resource type="Script" path="res://src/unit/MapCursor.cs" id="1_h4j0a"]
 [ext_resource type="Texture2D" uid="uid://doits7pmwj1ck" path="res://gfx/character/selector.png" id="2_e3575"]
 
-[node name="MapCursor" type="Node2D"]
+[node name="MapCursor" type="Node2D" node_paths=PackedStringArray("Preview")]
 script = ExtResource("1_h4j0a")
+Preview = NodePath("Placement")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Marker" type="Sprite2D" parent="."]
 texture = ExtResource("2_e3575")
 offset = Vector2(8, 8)
+
+[node name="Placement" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.501961)
+position = Vector2(8, 8)
+offset = Vector2(0, -8)

@@ -11,6 +11,7 @@ public partial class Map : Node2D
 	List<Unit> allUnits;
 	int unitInitIdx = 0;
 	bool test = false;
+	public GameUnit CurrentUnit;
 	public Map() {
 
 		test = !IsMapValid();
@@ -35,7 +36,7 @@ public partial class Map : Node2D
 			if (c is StartPosition) {
 				var sp = c as StartPosition;
 				startPositions.Add(sp);
-				sp.SetLabel(startPositions.Count);
+				sp.SetIndex(startPositions.Count);
 			}
 			else if (c is Unit) allUnits.Add(c as Unit);
 		}
@@ -92,18 +93,56 @@ public partial class Map : Node2D
     EBattlePhase CurrentPhase;
 	public void GoToPhase(EBattlePhase phase) {
 		CurrentPhase = phase;
+		GoToPhase();
 		Main.Instance.GUI.Battle.Open(phase);
 	}
-	public override void _Process(double delta)
+	private void GoToPhase() {
+		switch (CurrentPhase) {
+			case EBattlePhase.INTRO:
+				break;
+			case EBattlePhase.UNIT_SELECT:
+				break;
+			case EBattlePhase.UNIT_PLACE:
+				var sp = FindFreeStartPosition();
+				if(sp != null) MapCursor.Instance.Reposition(sp.GlobalPosition);
+				break;
+			case EBattlePhase.READY:
+				break;
+			case EBattlePhase.START:
+				break;
+			case EBattlePhase.SELECT:
+				break;
+			case EBattlePhase.MOVE:
+				break;
+			case EBattlePhase.ACTION:
+				break;
+			case EBattlePhase.TARGET:
+				break;
+			case EBattlePhase.PREDICTION:
+				break;
+			case EBattlePhase.EXECUTE:
+				break;
+			case EBattlePhase.RESULT:
+				break;
+		}
+	}
+	public void OnAction()
 	{
 		if (!BattleUi.Busy) {
 			var battle = Main.Instance.GUI.Battle;
 			switch (CurrentPhase) {
-				case EBattlePhase.INTRO:
-					break;
-				case EBattlePhase.UNIT_SELECT:
-					break;
 				case EBattlePhase.UNIT_PLACE:
+					var cursor = MapCursor.Instance;
+					var sp = GetStartPositionAt(cursor.GlobalPosition);
+					if (sp != null) {
+						// Place unit.
+						if (CurrentUnit != null) {
+							Main.State.Map.Deploy(CurrentUnit.Id, sp.Index);
+						}
+						// Go back to unit select.
+						CurrentUnit = null;
+						GoToPhase(EBattlePhase.UNIT_SELECT);
+					}
 					break;
 				case EBattlePhase.READY:
 					break;
@@ -125,5 +164,59 @@ public partial class Map : Node2D
 					break;
 			}
 		}
+	}
+	public void OnCancel()
+	{
+		if (!BattleUi.Busy) {
+			var battle = Main.Instance.GUI.Battle;
+			switch (CurrentPhase) {
+				case EBattlePhase.INTRO:
+					break;
+				case EBattlePhase.UNIT_SELECT:
+					break;
+				case EBattlePhase.UNIT_PLACE:
+					if (CurrentUnit != null) {
+						Main.State.Map.Undeploy(CurrentUnit.Id);
+					}
+					CurrentUnit = null;
+					GoToPhase(EBattlePhase.UNIT_SELECT);
+					break;
+				case EBattlePhase.READY:
+					break;
+				case EBattlePhase.START:
+					break;
+				case EBattlePhase.SELECT:
+					break;
+				case EBattlePhase.MOVE:
+					break;
+				case EBattlePhase.ACTION:
+					break;
+				case EBattlePhase.TARGET:
+					break;
+				case EBattlePhase.PREDICTION:
+					break;
+				case EBattlePhase.EXECUTE:
+					break;
+				case EBattlePhase.RESULT:
+					break;
+			}
+		}
+	}
+	public StartPosition GetStartPositionAt(Vector2 pos) {
+		var snappedPos = pos;
+		foreach (var sp in startPositions) {
+			var spPos = Unit.SnapPosition(sp.GlobalPosition);
+			if (snappedPos == spPos) return sp;
+		}
+		return null;
+	}
+	public StartPosition FindFreeStartPosition() {
+		foreach (var sp in startPositions) {
+			if (!Main.State.Map.Deployed.TryGetValue(sp.Index, out var id)) {
+				return sp;
+			}
+			if (id == null) return sp;
+		}
+		return null;
 	}
 }
