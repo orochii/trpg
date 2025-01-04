@@ -232,7 +232,7 @@ _data = {
 "show": SubResource("Animation_o7g8x")
 }
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_4gmut"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_wldtr"]
 _surfaces = [{
 "aabb": AABB(0, 0, 0, 32, 8, 1e-05),
 "attribute_data": PackedByteArray("AAAAPwAAAAAAAIA/AAAAAAAAAD8AAIA/AACAPwAAAAAAAIA/AACAPwAAAD8AAIA/AAAAPwAAAAAAAIA/AAAAAAAAAD8AAIA/AACAPwAAAAAAAIA/AACAPwAAAD8AAIA/AAAAPwAAAAAAAIA/AAAAAAAAAD8AAIA/AACAPwAAAAAAAIA/AACAPwAAAD8AAIA/AAAAPwAAAAAAAIA/AAAAAAAAAD8AAIA/AACAPwAAAAAAAIA/AACAPwAAAD8AAIA/"),
@@ -606,7 +606,7 @@ custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 
 [node name="Label2" type="MeshInstance2D" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus/VBoxContainer/HBoxContainer3/HBoxContainer2/Control"]
-mesh = SubResource("ArrayMesh_4gmut")
+mesh = SubResource("ArrayMesh_wldtr")
 texture = ExtResource("5_ako8t")
 script = ExtResource("4_2mffg")
 Value = 4

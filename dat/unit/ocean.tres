@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="DataUnit" load_steps=3 format=3 uid="uid://blgms8enekban"]
+
+[ext_resource type="Texture2D" uid="uid://j2nx1oh55jqk" path="res://gfx/character/ocean_char.png" id="1_evca3"]
+[ext_resource type="Script" path="res://src/data/DataUnit.cs" id="2_rpjow"]
+
+[resource]
+script = ExtResource("2_rpjow")
+DisplayName = "Ocean"
+Graphic = ExtResource("1_evca3")
+HP = 10
+LP = 4
+Offense = 4
+Dexterity = 8
+Move = 4
+Element = 2
+CollisionLayers = 1

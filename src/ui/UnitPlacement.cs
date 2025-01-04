@@ -19,6 +19,7 @@ public partial class UnitPlacement : MarginContainer
 			i.Setup(unit.Key);
 			UnitContainer.AddChild(i);
 			entries.Add(i);
+			GD.Print(unit.Key);
 		}
 	}
 	public void Focus() {

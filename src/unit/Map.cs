@@ -10,16 +10,19 @@ public partial class Map : Node2D
 	List<StartPosition> startPositions;
 	List<Unit> allUnits;
 	int unitInitIdx = 0;
+	bool test = false;
 	public Map() {
-		if (!IsMapValid()) {
-			foreach (var unit in TestMapUnits) {
-				Main.State.Party.GetOrCreate(unit);
-			}
-		}
+
+		test = !IsMapValid();
 	}
 	public override void _Ready()
     {
 		Main.Instance.Map = this;
+		if (test) {
+			foreach (var unit in TestMapUnits) {
+				Main.State.Party.GetOrCreate(unit);
+			}
+		}
 		PrepareInstance();
 		PrepareMapUnits();
 		// PreparePartyUnits();

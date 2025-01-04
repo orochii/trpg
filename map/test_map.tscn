@@ -10,6 +10,7 @@
 [node name="TestMap" type="Node2D" node_paths=PackedStringArray("ObjectParent")]
 script = ExtResource("1_tr0gi")
 ObjectParent = NodePath("Objects")
+TestMapUnits = PackedStringArray("hikari", "ocean", "salamagan")
 
 [node name="Tilemap" type="Node2D" parent="."]
 
