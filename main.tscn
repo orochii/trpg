@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=4 uid="uid://c7cxl46c8kums"]
+[gd_scene load_steps=27 format=4 uid="uid://c7cxl46c8kums"]
 
 [ext_resource type="Script" path="res://src/Main.cs" id="1_nmmc8"]
 [ext_resource type="Texture2D" uid="uid://dtjbmx3bdwjau" path="res://gfx/character/hikari_char.png" id="2_ofgbs"]
@@ -14,9 +14,11 @@
 [ext_resource type="Texture2D" uid="uid://c01brya506ma8" path="res://gfx/icon/move.png" id="6_l8rmc"]
 [ext_resource type="Script" path="res://src/ui/BattleUi.cs" id="7_ge1po"]
 [ext_resource type="Script" path="res://src/ui/VictoryConditions.cs" id="9_jgufq"]
+[ext_resource type="Script" path="res://src/ui/UnitStatus.cs" id="10_3jmtu"]
 [ext_resource type="Script" path="res://src/utils/ScreenshotManager.cs" id="10_aqdv7"]
 [ext_resource type="Script" path="res://src/ui/UnitPlacement.cs" id="12_3f5uu"]
 [ext_resource type="Script" path="res://src/ui/UnitButton.cs" id="13_8eagp"]
+[ext_resource type="Script" path="res://src/ui/OptionMessage.cs" id="17_oysmn"]
 
 [sub_resource type="Animation" id="Animation_igf33"]
 length = 0.001
@@ -91,58 +93,6 @@ tracks/5/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [0.0]
-}
-
-[sub_resource type="Animation" id="Animation_o7g8x"]
-resource_name = "show"
-length = 0.3
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("MainMargin/BattleUI/RightColumn:offset_right")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.166667, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [400, -10.0, 0.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("MainMargin/BattleUI/RightColumn:offset_left")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.166667, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [400, -10.0, 0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("MainMargin/BattleUI/LeftColumn:offset_left")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.166667, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [-200.0, 10.0, 0.0]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("MainMargin/BattleUI/LeftColumn:offset_right")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.166667, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [-200.0, 10.0, 0.0]
 }
 
 [sub_resource type="Animation" id="Animation_jlntg"]
@@ -224,6 +174,58 @@ tracks/1/keys = {
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_o7g8x"]
+resource_name = "show"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MainMargin/BattleUI/RightColumn:offset_right")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.166667, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [400, -10.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MainMargin/BattleUI/RightColumn:offset_left")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.166667, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [400, -10.0, 0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MainMargin/BattleUI/LeftColumn:offset_left")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.166667, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [-200.0, 10.0, 0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("MainMargin/BattleUI/LeftColumn:offset_right")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.166667, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [-200.0, 10.0, 0.0]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_eh1qj"]
 _data = {
 "RESET": SubResource("Animation_igf33"),
@@ -232,7 +234,18 @@ _data = {
 "show": SubResource("Animation_o7g8x")
 }
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_wldtr"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_xbabf"]
+_surfaces = [{
+"aabb": AABB(0, 0, 0, 32, 8, 1e-05),
+"attribute_data": PackedByteArray("AAAAPwAAAAAAAIA/AAAAAAAAAD8AAIA/AACAPwAAAAAAAIA/AACAPwAAAD8AAIA/AAAAPwAAAAAAAIA/AAAAAAAAAD8AAIA/AACAPwAAAAAAAIA/AACAPwAAAD8AAIA/AAAAPwAAAAAAAIA/AAAAAAAAAD8AAIA/AACAPwAAAAAAAIA/AACAPwAAAD8AAIA/AAAAPwAAAAAAAIA/AAAAAAAAAD8AAIA/AACAPwAAAAAAAIA/AACAPwAAAD8AAIA/"),
+"format": 34359738385,
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("AAAAAAAAAAAAAAAAAAAAQQAAAAAAAAAAAAAAAAAAAEEAAAAAAAAAQQAAAAAAAAAAAAAAQQAAAEEAAAAAAAAAAAAAAEEAAAAAAAAAQQAAAAAAAAAAAACAQQAAAAAAAAAAAAAAQQAAAEEAAAAAAACAQQAAAAAAAAAAAACAQQAAAEEAAAAAAAAAQQAAAEEAAAAAAACAQQAAAAAAAAAAAADAQQAAAAAAAAAAAACAQQAAAEEAAAAAAADAQQAAAAAAAAAAAADAQQAAAEEAAAAAAACAQQAAAEEAAAAAAADAQQAAAAAAAAAAAAAAQgAAAAAAAAAAAADAQQAAAEEAAAAAAAAAQgAAAAAAAAAAAAAAQgAAAEEAAAAAAADAQQAAAEEAAAAA")
+}]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_8gonb"]
 _surfaces = [{
 "aabb": AABB(0, 0, 0, 32, 8, 1e-05),
 "attribute_data": PackedByteArray("AAAAPwAAAAAAAIA/AAAAAAAAAD8AAIA/AACAPwAAAAAAAIA/AACAPwAAAD8AAIA/AAAAPwAAAAAAAIA/AAAAAAAAAD8AAIA/AACAPwAAAAAAAIA/AACAPwAAAD8AAIA/AAAAPwAAAAAAAIA/AAAAAAAAAD8AAIA/AACAPwAAAAAAAIA/AACAPwAAAD8AAIA/AAAAPwAAAAAAAIA/AAAAAAAAAD8AAIA/AACAPwAAAAAAAIA/AACAPwAAAD8AAIA/"),
@@ -276,13 +289,12 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer/GUIParent/WindowFrames" node_paths=PackedStringArray("Follow")]
-visible = false
 modulate = Color(1, 1, 1, 0.752941)
 layout_mode = 2
-offset_left = 144.0
-offset_top = 70.0
-offset_right = 236.0
-offset_bottom = 116.0
+offset_left = -120.0
+offset_top = -25.0
+offset_right = 8.0
+offset_bottom = 33.0
 texture = ExtResource("4_ueeuy")
 patch_margin_left = 3
 patch_margin_top = 3
@@ -356,6 +368,7 @@ MarginLeft = 0
 MarginRight = 0
 
 [node name="NinePatchRect5" type="NinePatchRect" parent="CanvasLayer/GUIParent/WindowFrames" node_paths=PackedStringArray("Follow")]
+visible = false
 modulate = Color(1, 1, 1, 0.752941)
 layout_mode = 2
 offset_left = 8.0
@@ -374,6 +387,26 @@ MarginBottom = 0
 MarginLeft = 0
 MarginRight = 0
 
+[node name="NinePatchRect6" type="NinePatchRect" parent="CanvasLayer/GUIParent/WindowFrames" node_paths=PackedStringArray("Follow")]
+visible = false
+modulate = Color(1, 1, 1, 0.752941)
+layout_mode = 2
+offset_left = 280.0
+offset_top = 110.0
+offset_right = 312.0
+offset_bottom = 172.0
+texture = ExtResource("4_ueeuy")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+script = ExtResource("5_llorv")
+Follow = NodePath("../../MainMargin/BattleUI/RightColumn/ReadyMessage")
+MarginTop = 0
+MarginBottom = 0
+MarginLeft = 0
+MarginRight = 0
+
 [node name="MainMargin" type="MarginContainer" parent="CanvasLayer/GUIParent"]
 layout_mode = 1
 anchors_preset = 15
@@ -386,13 +419,15 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="BattleUI" type="Control" parent="CanvasLayer/GUIParent/MainMargin" node_paths=PackedStringArray("Animation", "PhaseLabel", "VictoryConditions", "UnitPlacement")]
+[node name="BattleUI" type="Control" parent="CanvasLayer/GUIParent/MainMargin" node_paths=PackedStringArray("Animation", "PhaseLabel", "VictoryConditions", "UnitPlacement", "ReadyMessage", "UnitStatusShort")]
 layout_mode = 2
 script = ExtResource("7_ge1po")
 Animation = NodePath("AnimationPlayer")
 PhaseLabel = NodePath("PhaseLabel")
 VictoryConditions = NodePath("LeftColumn/VictoryConditions")
 UnitPlacement = NodePath("RightColumn/UnitPlacement")
+ReadyMessage = NodePath("RightColumn/ReadyMessage")
+UnitStatusShort = NodePath("RightColumn/ActiveUnitStatus")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/GUIParent/MainMargin/BattleUI"]
 root_node = NodePath("../../..")
@@ -495,6 +530,7 @@ text = "--%"
 horizontal_alignment = 2
 
 [node name="VictoryConditions" type="MarginContainer" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/LeftColumn" node_paths=PackedStringArray("ConditionsLabel", "OkButton")]
+visible = false
 layout_mode = 2
 script = ExtResource("9_jgufq")
 ConditionsLabel = NodePath("VBoxContainer/Label")
@@ -524,10 +560,14 @@ grow_vertical = 2
 size_flags_horizontal = 8
 alignment = 2
 
-[node name="ActiveUnitStatus" type="MarginContainer" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn"]
-visible = false
+[node name="ActiveUnitStatus" type="MarginContainer" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn" node_paths=PackedStringArray("NameLabel", "HPLabel", "LP", "MoveLabel")]
 layout_mode = 2
 size_flags_horizontal = 0
+script = ExtResource("10_3jmtu")
+NameLabel = NodePath("VBoxContainer/HBoxContainer/Label")
+HPLabel = NodePath("VBoxContainer/HBoxContainer/HBoxContainer/Label2")
+LP = NodePath("VBoxContainer/HBoxContainer3/HBoxContainer2/Control/Label2")
+MoveLabel = NodePath("VBoxContainer/HBoxContainer3/HBoxContainer3/Label2")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus"]
 layout_mode = 2
@@ -535,59 +575,24 @@ layout_mode = 2
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus/VBoxContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-
-[node name="Label" type="Label" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus/VBoxContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
+size_flags_horizontal = 3
 text = "Hikari"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus/VBoxContainer/HBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "HP"
 
-[node name="Label2" type="Label" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Label2" type="Label" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus/VBoxContainer/HBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "10/10"
 horizontal_alignment = 2
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus/VBoxContainer/HBoxContainer/VBoxContainer"]
-visible = false
-layout_mode = 2
-
-[node name="Label" type="Label" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-text = "Offense"
-
-[node name="Label2" type="Label" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "4"
-horizontal_alignment = 2
-
-[node name="HBoxContainer3" type="HBoxContainer" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus/VBoxContainer/HBoxContainer/VBoxContainer"]
-visible = false
-layout_mode = 2
-
-[node name="Label" type="Label" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-text = "Dexterity"
-
-[node name="Label2" type="Label" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "8"
-horizontal_alignment = 2
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus/VBoxContainer/HBoxContainer"]
-visible = false
-layout_mode = 2
-texture = ExtResource("2_ofgbs")
-stretch_mode = 3
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus/VBoxContainer"]
 layout_mode = 2
@@ -606,7 +611,7 @@ custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 
 [node name="Label2" type="MeshInstance2D" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus/VBoxContainer/HBoxContainer3/HBoxContainer2/Control"]
-mesh = SubResource("ArrayMesh_wldtr")
+mesh = SubResource("ArrayMesh_xbabf")
 texture = ExtResource("5_ako8t")
 script = ExtResource("4_2mffg")
 Value = 4
@@ -622,6 +627,109 @@ texture = ExtResource("4_3s67a")
 stretch_mode = 3
 
 [node name="Label2" type="Label" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus/VBoxContainer/HBoxContainer3/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "4"
+horizontal_alignment = 2
+
+[node name="ActiveUnitStatus2" type="MarginContainer" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus2"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus2/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus2/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Hikari"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus2/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus2/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "HP"
+
+[node name="Label2" type="Label" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus2/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "10/10"
+horizontal_alignment = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus2/VBoxContainer/HBoxContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus2/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Offense"
+
+[node name="Label2" type="Label" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus2/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "4"
+horizontal_alignment = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus2/VBoxContainer/HBoxContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus2/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "Dexterity"
+
+[node name="Label2" type="Label" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus2/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "8"
+horizontal_alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus2/VBoxContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+texture = ExtResource("2_ofgbs")
+stretch_mode = 3
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus2/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus2/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label2" type="TextureRect" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus2/VBoxContainer/HBoxContainer3/HBoxContainer2"]
+layout_mode = 2
+texture = ExtResource("4_nn2yb")
+stretch_mode = 3
+
+[node name="Control" type="Control" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus2/VBoxContainer/HBoxContainer3/HBoxContainer2"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label2" type="MeshInstance2D" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus2/VBoxContainer/HBoxContainer3/HBoxContainer2/Control"]
+mesh = SubResource("ArrayMesh_8gonb")
+texture = ExtResource("5_ako8t")
+script = ExtResource("4_2mffg")
+Value = 4
+MaxValue = 4
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus2/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="TextureRect" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus2/VBoxContainer/HBoxContainer3/HBoxContainer3"]
+layout_mode = 2
+texture = ExtResource("4_3s67a")
+stretch_mode = 3
+
+[node name="Label2" type="Label" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ActiveUnitStatus2/VBoxContainer/HBoxContainer3/HBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "4"
@@ -648,6 +756,27 @@ layout_mode = 2
 layout_mode = 2
 icon = ExtResource("2_ofgbs")
 script = ExtResource("13_8eagp")
+
+[node name="ReadyMessage" type="MarginContainer" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn" node_paths=PackedStringArray("Options")]
+visible = false
+layout_mode = 2
+script = ExtResource("17_oysmn")
+Options = [NodePath("VBoxContainer/Button"), NodePath("VBoxContainer/Button2")]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ReadyMessage"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ReadyMessage/VBoxContainer"]
+layout_mode = 2
+text = "Ready?"
+
+[node name="Button" type="Button" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ReadyMessage/VBoxContainer"]
+layout_mode = 2
+text = "Yes"
+
+[node name="Button2" type="Button" parent="CanvasLayer/GUIParent/MainMargin/BattleUI/RightColumn/ReadyMessage/VBoxContainer"]
+layout_mode = 2
+text = "No"
 
 [node name="PhaseLabel" type="Label" parent="CanvasLayer/GUIParent/MainMargin/BattleUI"]
 visible = false

@@ -13,22 +13,15 @@ public partial class BattleUi : Control
 	[Export] public Label PhaseLabel;
 	[Export] public VictoryConditions VictoryConditions;
 	[Export] public UnitPlacement UnitPlacement;
+	[Export] public OptionMessage ReadyMessage;
+	[Export] public UnitStatus UnitStatusShort;
 	public static bool Busy {get;private set;}
-    public override void _Ready()
-    {
-        Animation.AnimationFinished += OnAnimationFinished;
-    }
-    private void OnAnimationFinished(StringName name) {
-		//
-	}
-	public async void ShowPhase(EFaction faction) {
-		Busy = true;
+	private void ShowPhase(EFaction faction) {
 		PhaseLabel.Text = $"{faction} Phase";
 		Animation.Play("phaseChange");
-		await ToSignal(Animation, AnimationPlayer.SignalName.AnimationFinished);
-		Busy = false;
 	}
 	public async void Open(EBattlePhase phase) {
+		GD.Print("Set to phase ", phase);
 		Busy = true;
 		Animation.Play("show");
 		var toFocus = ShowByPhase(phase);
@@ -58,11 +51,22 @@ public partial class BattleUi : Control
 				UnitPlacement.Refresh();
 				UnitPlacement.Visible = true;
 				return UnitPlacement;
+			case EBattlePhase.READY:
+				ReadyMessage.Visible = true;
+				return ReadyMessage;
+			case EBattlePhase.START:
+				ShowPhase(Main.Instance.Map.Faction);
+				return this;
 		}
 		return null;
 	}
 	private void HideAll() {
 		VictoryConditions.Visible = false;
 		UnitPlacement.Visible = false;
+		ReadyMessage.Visible = false;
+		UnitStatusShort.Setup(null);
+	}
+	public void Focus() {
+		Main.Instance.Map.GoToPhase(EBattlePhase.SELECT);
 	}
 }

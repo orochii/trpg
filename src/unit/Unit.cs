@@ -1,6 +1,7 @@
 using Godot;
 using Godot.NativeInterop;
 using System;
+using System.Collections.Generic;
 
 public enum EFaction {
 	ENEMY, NEUTRAL, ALLY
@@ -10,8 +11,10 @@ public partial class Unit : Node2D
 {
 	public const int TILE_SIZE = 16;
 	public const float MOVE_SPEED = 1;
-	[Export] private DataUnit Data;
-	[Export] private EFaction Faction;
+	static Vector2I[] ps = new Vector2I[]{Vector2I.Up,Vector2I.Down,Vector2I.Left,Vector2I.Right};
+	static uint[] ds = new uint[]{8,2,4,6};
+	[Export] public DataUnit Data;
+	[Export] public EFaction Faction;
 	private CharGraphic Graphic;
 	public GameUnit State;
 	public Vector2I CurrentPosition;
@@ -28,17 +31,11 @@ public partial class Unit : Node2D
 			GlobalPosition = GlobalPosition.MoveToward(t, MOVE_SPEED);
 			return;
 		}
-		/* 	// Might repurpose this for uh non-battle maps
-			// Idea is like Another Bible's towns.
-		var horz = (int)Math.Round(Input.GetAxis("ui_left", "ui_right"));
-		var vert = (int)Math.Round(Input.GetAxis("ui_up", "ui_down"));
-		if (horz != 0 || vert != 0) {
-			var newpos = CurrentPosition + new Vector2I(horz,vert);
-			if (CanMove(newpos,V2ToDir(horz,vert))) {
-				CurrentPosition = newpos;
-			}
-		}
-		*/
+	}
+	public void Reposition(Vector2 pos) {
+		GlobalPosition = pos;
+		CurrentPosition = GetGlobalTilePos();
+		GlobalPosition = TileToGlobalPos(CurrentPosition);
 	}
 	public void Setup() {
 		State = new GameUnit(Data.Id, Faction);
@@ -69,9 +66,7 @@ public partial class Unit : Node2D
 		return GlobalPosition != t;
 	}
 	public Vector2I GetGlobalTilePos() {
-		int tx = (int)(GlobalPosition.X / TILE_SIZE);
-		int ty = (int)(GlobalPosition.Y / TILE_SIZE);
-		return new Vector2I(tx,ty);
+		return GlobalToTilePos(GlobalPosition);
 	}
 	public bool CanMove(Vector2I tpos, uint dir=0) {
 		if (Data == null) return false;
@@ -88,10 +83,72 @@ public partial class Unit : Node2D
 		}
 		return true;
 	}
-	public static Vector2 TileToGlobalPos(Vector2I tpos) {
+	public class PathNode {
+		public uint Depth;
+		public Vector2I Position;
+		public PathNode Prev;
+		public PathNode(uint depth, Vector2I pos, PathNode prev) {
+			Depth = depth;
+			Position = pos;
+			Prev = prev;
+		}
+		public void Set(uint depth, PathNode prev) {
+			Depth = depth;
+			Prev = prev;
+		}
+	}
+	private Dictionary<Vector2I,PathNode> pathGraph;
+	private List<Vector2I> walkable;
+	public List<Vector2I> GetWalkableArea() {
+		if (walkable==null) GenerateArea();
+		return walkable;
+	}
+	public List<Vector2I> GetPathTo(Vector2I target) {
+		if (pathGraph==null) return null;
+		if (!pathGraph.TryGetValue(target, out var n)) return null;
+		var path = new List<Vector2I>();
+		while (n != null) {
+			path.Add(n.Position);
+			n = n.Prev;
+		}
+		path.Reverse();
+		return path;
+	}
+	public void GenerateArea() {
+		walkable = new(){CurrentPosition};
+		PathNode rootNode = new(0,CurrentPosition,null);
+		pathGraph = new(){{CurrentPosition,rootNode}};
+		PlotArea(rootNode, Data.Move);
+	}
+	private void PlotArea(PathNode node, int move) {
+		if (move <= 0) return;
+		for (int i=0;i<ps.Length;i++) {
+			var p = node.Position + ps[i];
+			var d = ds[i];
+			if (CanMove(p, d)) {
+				if (!walkable.Contains(p)) walkable.Add(p);
+				var depth = node.Depth+1;
+				if (!pathGraph.TryGetValue(p, out var n)) {
+					n = new PathNode(depth, p, node);
+					pathGraph.Add(p,n);
+				} else {
+					if (n.Depth > depth) {
+						n.Set(depth, node);
+					}
+				}
+				PlotArea(n,move-1);
+			}
+		}
+	}
+    public static Vector2 TileToGlobalPos(Vector2I tpos) {
 		float px = tpos.X * TILE_SIZE + TILE_SIZE/2;
 		float py = tpos.Y * TILE_SIZE + TILE_SIZE/2;
 		return new Vector2(px, py);
+	}
+	public static Vector2I GlobalToTilePos(Vector2 pos) {
+		int tx = (int)(pos.X / TILE_SIZE);
+		int ty = (int)(pos.Y / TILE_SIZE);
+		return new Vector2I(tx,ty);
 	}
 	public static uint V2ToDir(int x, int y) {
 		if (x > 0) return 6;

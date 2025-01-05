@@ -51,7 +51,7 @@ public partial class StartPosition : Sprite2D
 		foreach (var c in GetChildren()) {
 			if (c is Label) {
 				var l = c as Label;
-				l.Text = val.ToString();
+				l.Text = (val+1).ToString();
 				Index = val;
 				return;
 			}

@@ -5,13 +5,16 @@ using System.Collections.Generic;
 public partial class Map : Node2D
 {
 	[Export] string CurrentMapName;
-	[Export] Node2D ObjectParent;
+	[Export] private Node2D ObjectParent;
+	[Export] public Node2D SquareParent;
 	[Export] string[] TestMapUnits = new string[1]{"hikari"};
 	List<StartPosition> startPositions;
 	List<Unit> allUnits;
 	int unitInitIdx = 0;
 	bool test = false;
 	public GameUnit CurrentUnit;
+	public Unit SelectedUnit;
+	public Vector2 SelectedUnitOriginalPosition;
 	public Map() {
 
 		test = !IsMapValid();
@@ -35,8 +38,8 @@ public partial class Map : Node2D
 		foreach (var c in ObjectParent.GetChildren()) {
 			if (c is StartPosition) {
 				var sp = c as StartPosition;
-				startPositions.Add(sp);
 				sp.SetIndex(startPositions.Count);
+				startPositions.Add(sp);
 			}
 			else if (c is Unit) allUnits.Add(c as Unit);
 		}
@@ -91,6 +94,18 @@ public partial class Map : Node2D
         return Main.State.Map != null && Main.State.Map.Name == CurrentMapName;
     }
     EBattlePhase CurrentPhase;
+	EFaction CurrentFaction = EFaction.ALLY;
+	public EFaction Faction => CurrentFaction;
+	public List<Unit> CurrentUnits;
+	public void PreparePhase() {
+		CurrentUnits.Clear();
+		foreach (var u in allUnits) {
+			if (u.Faction == CurrentFaction) {
+				u.GenerateArea();
+				CurrentUnits.Add(u);
+			}
+		}
+	}
 	public void GoToPhase(EBattlePhase phase) {
 		CurrentPhase = phase;
 		GoToPhase();
@@ -109,6 +124,7 @@ public partial class Map : Node2D
 			case EBattlePhase.READY:
 				break;
 			case EBattlePhase.START:
+				MapCursor.Instance.LastHover = null;
 				break;
 			case EBattlePhase.SELECT:
 				break;
@@ -142,13 +158,31 @@ public partial class Map : Node2D
 						// Go back to unit select.
 						CurrentUnit = null;
 						GoToPhase(EBattlePhase.UNIT_SELECT);
+						AudioManager.PlaySystemSound("decision");
 					}
 					break;
 				case EBattlePhase.READY:
+					var idx = Main.Instance.GUI.Battle.ReadyMessage.SelectedIndex;
+					switch (idx) {
+						case 0:
+							PreparePartyUnits();
+							GoToPhase(EBattlePhase.START);
+							AudioManager.PlaySystemSound("decision");
+							break;
+						default:
+							GoToPhase(EBattlePhase.UNIT_SELECT);
+							AudioManager.PlaySystemSound("decision");
+							break;
+					}
 					break;
 				case EBattlePhase.START:
 					break;
 				case EBattlePhase.SELECT:
+					SelectedUnit = MapCursor.Instance.LastHover;
+					if (SelectedUnit==null) return;
+					SelectedUnitOriginalPosition = SelectedUnit.GlobalPosition;
+					MapCursor.Instance.Reposition(SelectedUnit.GlobalPosition);
+					GoToPhase(EBattlePhase.MOVE);
 					break;
 				case EBattlePhase.MOVE:
 					break;
@@ -173,6 +207,14 @@ public partial class Map : Node2D
 				case EBattlePhase.INTRO:
 					break;
 				case EBattlePhase.UNIT_SELECT:
+					// None deployed: error
+					if (Main.State.Map.Deployed.Count <= 0) {
+						AudioManager.PlaySystemSound("buzzer");
+						return;
+					}
+					// Probably need to deploy req. units? idk.
+					GoToPhase(EBattlePhase.READY);
+					AudioManager.PlaySystemSound("cancel");
 					break;
 				case EBattlePhase.UNIT_PLACE:
 					if (CurrentUnit != null) {
@@ -180,6 +222,7 @@ public partial class Map : Node2D
 					}
 					CurrentUnit = null;
 					GoToPhase(EBattlePhase.UNIT_SELECT);
+					AudioManager.PlaySystemSound("cancel");
 					break;
 				case EBattlePhase.READY:
 					break;
@@ -188,6 +231,10 @@ public partial class Map : Node2D
 				case EBattlePhase.SELECT:
 					break;
 				case EBattlePhase.MOVE:
+					SelectedUnit.Reposition(SelectedUnitOriginalPosition);
+					MapCursor.Instance.Reposition(SelectedUnitOriginalPosition);
+					SelectedUnit = null;
+					GoToPhase(EBattlePhase.SELECT);
 					break;
 				case EBattlePhase.ACTION:
 					break;
@@ -202,8 +249,16 @@ public partial class Map : Node2D
 			}
 		}
 	}
+	public Unit GetUnitAt(Vector2 pos) {
+		var snappedPos = Unit.SnapPosition(pos);
+		foreach (var unit in allUnits) {
+			var uPos = Unit.SnapPosition(unit.GlobalPosition);
+			if (snappedPos == uPos) return unit;
+		}
+		return null;
+	}
 	public StartPosition GetStartPositionAt(Vector2 pos) {
-		var snappedPos = pos;
+		var snappedPos = Unit.SnapPosition(pos);
 		foreach (var sp in startPositions) {
 			var spPos = Unit.SnapPosition(sp.GlobalPosition);
 			if (snappedPos == spPos) return sp;

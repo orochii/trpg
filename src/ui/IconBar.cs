@@ -6,8 +6,8 @@ using System.IO;
 [Tool]
 public partial class IconBar : MeshInstance2D
 {
-	[Export] uint Value;
-	[Export] uint MaxValue;
+	[Export] public uint Value;
+	[Export] public uint MaxValue;
 	[Export] uint Pieces = 1;
 	private uint _value;
 	private uint _maxValue;

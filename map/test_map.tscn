@@ -7,9 +7,10 @@
 [ext_resource type="PackedScene" uid="uid://co51tn4k4qqx7" path="res://dat/template/map_cursor.tscn" id="5_64sxf"]
 [ext_resource type="PackedScene" uid="uid://byvsu3l4d1po5" path="res://dat/template/camera_2d.tscn" id="7_orroo"]
 
-[node name="TestMap" type="Node2D" node_paths=PackedStringArray("ObjectParent")]
+[node name="TestMap" type="Node2D" node_paths=PackedStringArray("ObjectParent", "SquareParent")]
 script = ExtResource("1_tr0gi")
 ObjectParent = NodePath("Objects")
+SquareParent = NodePath("SquareParent")
 TestMapUnits = PackedStringArray("hikari", "ocean", "salamagan")
 
 [node name="Tilemap" type="Node2D" parent="."]
@@ -21,6 +22,8 @@ tile_set = ExtResource("2_yor48")
 [node name="TileMapLayer2" type="TileMapLayer" parent="Tilemap"]
 tile_map_data = PackedByteArray("AAAGAAYAAAACAAAAAAAHAAUAAAACAAAAAAALAAgAAAACAAAAAAAMAAgAAAACAAAAAAANAAgAAAACAAAAAAANAAcAAAACAAAAAAAOAAcAAAACAAAAAAA=")
 tile_set = ExtResource("2_yor48")
+
+[node name="SquareParent" type="Node2D" parent="."]
 
 [node name="Objects" type="Node2D" parent="."]
 y_sort_enabled = true

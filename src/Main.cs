@@ -13,6 +13,7 @@ public partial class Main : Node
 	[Export] public PackedScene UnitTemplate;
 	public Main() {
 		Instance = this;
+		AudioManager.Init();
 	}
 	public override void _Ready()
 	{

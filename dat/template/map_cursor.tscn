@@ -1,11 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://co51tn4k4qqx7"]
+[gd_scene load_steps=5 format=3 uid="uid://co51tn4k4qqx7"]
 
 [ext_resource type="Script" path="res://src/unit/MapCursor.cs" id="1_h4j0a"]
 [ext_resource type="Texture2D" uid="uid://doits7pmwj1ck" path="res://gfx/character/selector.png" id="2_e3575"]
+[ext_resource type="Texture2D" uid="uid://dscp3yu4puoak" path="res://gfx/character/areaTile.png" id="2_m068l"]
+[ext_resource type="Texture2D" uid="uid://b12pk65yqays2" path="res://gfx/character/path.png" id="3_ncewe"]
 
 [node name="MapCursor" type="Node2D" node_paths=PackedStringArray("Preview")]
 script = ExtResource("1_h4j0a")
 Preview = NodePath("Placement")
+SquareTexture = ExtResource("2_m068l")
+PathTexture = ExtResource("3_ncewe")
 
 [node name="Marker" type="Sprite2D" parent="."]
 texture = ExtResource("2_e3575")

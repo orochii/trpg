@@ -11,6 +11,14 @@ public partial class UnitPlacement : MarginContainer
     {
         UnitTemplate.Visible = false;
     }
+    public override void _Process(double delta)
+    {
+        if (!IsVisibleInTree()) return;
+		if (Input.IsActionJustPressed("ui_cancel")) {
+			Main.Instance.Map.OnCancel();
+		}
+    }
+    
 	public void Refresh() {
 		foreach (var e in entries) e.QueueFree();
 		entries.Clear();
