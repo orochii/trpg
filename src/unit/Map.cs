@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public partial class Map : Node2D
 {
+	public static bool Busy;
 	[Export] string CurrentMapName;
 	[Export] private Node2D ObjectParent;
 	[Export] public Node2D SquareParent;
@@ -185,6 +186,13 @@ public partial class Map : Node2D
 					GoToPhase(EBattlePhase.MOVE);
 					break;
 				case EBattlePhase.MOVE:
+					if (SelectedUnit.GoTo(Unit.GlobalToTilePos(MapCursor.Instance.GlobalPosition))) {
+						Busy = true;
+						SelectedUnit.OnPathFinish = ()=>{
+							Busy = false;
+							GoToPhase(EBattlePhase.ACTION);
+						};
+					}
 					break;
 				case EBattlePhase.ACTION:
 					break;
@@ -237,6 +245,8 @@ public partial class Map : Node2D
 					GoToPhase(EBattlePhase.SELECT);
 					break;
 				case EBattlePhase.ACTION:
+					SelectedUnit.Reposition(SelectedUnitOriginalPosition);
+					GoToPhase(EBattlePhase.MOVE);
 					break;
 				case EBattlePhase.TARGET:
 					break;

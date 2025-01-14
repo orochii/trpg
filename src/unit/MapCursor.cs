@@ -35,6 +35,10 @@ public partial class MapCursor : Node2D
 		if (GetViewport().GuiGetFocusOwner() != null || BattleUi.Busy) {
 			return;
 		}
+		if (Map.Busy) return;
+		if (Main.Instance.Map.SelectedUnit != null && Main.Instance.Map.SelectedUnit.IsMoving()) {
+			return;
+		}
 		var hovered = Main.Instance.Map.GetUnitAt(CurrentPosition);
 		RefreshHovered(hovered);
 		RefreshSelected();

@@ -10,7 +10,7 @@ public enum EFaction {
 public partial class Unit : Node2D
 {
 	public const int TILE_SIZE = 16;
-	public const float MOVE_SPEED = 1;
+	public const float MOVE_SPEED = 2;
 	static Vector2I[] ps = new Vector2I[]{Vector2I.Up,Vector2I.Down,Vector2I.Left,Vector2I.Right};
 	static uint[] ds = new uint[]{8,2,4,6};
 	[Export] public DataUnit Data;
@@ -18,6 +18,7 @@ public partial class Unit : Node2D
 	private CharGraphic Graphic;
 	public GameUnit State;
 	public Vector2I CurrentPosition;
+	public Action OnPathFinish;
 	public override void _Ready()
 	{
 		foreach(var c in GetChildren()) {
@@ -29,7 +30,14 @@ public partial class Unit : Node2D
 		if (IsMoving()) {
 			var t = TileToGlobalPos(CurrentPosition);
 			GlobalPosition = GlobalPosition.MoveToward(t, MOVE_SPEED);
-			return;
+			if (IsMoving()) return;
+		}
+		if (currentPath != null && currentPath.Count > 0) {
+			CurrentPosition = currentPath[0];
+			currentPath.RemoveAt(0);
+			if (currentPath.Count==0) {
+				if(OnPathFinish != null) OnPathFinish.Invoke();
+			}
 		}
 	}
 	public void Reposition(Vector2 pos) {
@@ -99,6 +107,7 @@ public partial class Unit : Node2D
 	}
 	private Dictionary<Vector2I,PathNode> pathGraph;
 	private List<Vector2I> walkable;
+	private List<Vector2I> currentPath;
 	public List<Vector2I> GetWalkableArea() {
 		if (walkable==null) GenerateArea();
 		return walkable;
@@ -113,6 +122,12 @@ public partial class Unit : Node2D
 		}
 		path.Reverse();
 		return path;
+	}
+	public bool GoTo(Vector2I pos) {
+		var path = GetPathTo(pos);
+		if (path == null) return false;
+		currentPath = path;
+		return true;
 	}
 	public void GenerateArea() {
 		walkable = new(){CurrentPosition};

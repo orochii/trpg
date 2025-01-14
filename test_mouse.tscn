@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://dwj4tdwkewrlo"]
+
+[ext_resource type="Texture2D" uid="uid://dtjbmx3bdwjau" path="res://gfx/character/hikari_char.png" id="1_10hh0"]
+[ext_resource type="Script" path="res://src/TestMouse.cs" id="1_b7f40"]
+[ext_resource type="Texture2D" uid="uid://doits7pmwj1ck" path="res://gfx/character/selector.png" id="3_mcb7b"]
+
+[node name="Node2D" type="Node2D" node_paths=PackedStringArray("Camera", "Sprite", "Cursor", "Label")]
+script = ExtResource("1_b7f40")
+Camera = NodePath("Camera2D")
+Sprite = NodePath("Sprite2D")
+Cursor = NodePath("CanvasLayer/Sprite2D")
+Label = NodePath("CanvasLayer/Label")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(199, 112)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(178, 106)
+texture = ExtResource("1_10hh0")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]
+texture = ExtResource("3_mcb7b")

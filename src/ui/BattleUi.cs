@@ -15,6 +15,7 @@ public partial class BattleUi : Control
 	[Export] public UnitPlacement UnitPlacement;
 	[Export] public OptionMessage ReadyMessage;
 	[Export] public UnitStatus UnitStatusShort;
+	[Export] public SkillSelect SkillSelect;
 	public static bool Busy {get;private set;}
 	private void ShowPhase(EFaction faction) {
 		PhaseLabel.Text = $"{faction} Phase";
@@ -57,6 +58,10 @@ public partial class BattleUi : Control
 			case EBattlePhase.START:
 				ShowPhase(Main.Instance.Map.Faction);
 				return this;
+			case EBattlePhase.ACTION:
+				SkillSelect.Refresh();
+				SkillSelect.Visible = true;
+				return SkillSelect;
 		}
 		return null;
 	}
@@ -64,6 +69,7 @@ public partial class BattleUi : Control
 		VictoryConditions.Visible = false;
 		UnitPlacement.Visible = false;
 		ReadyMessage.Visible = false;
+		SkillSelect.Visible = false;
 		UnitStatusShort.Setup(null);
 	}
 	public void Focus() {
